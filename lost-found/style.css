@@ -1,0 +1,360 @@
+/* Islamic-Inspired Lost and Found Styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8f0f2 100%);
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+/* Header with Islamic geometric pattern influence */
+header {
+    background: linear-gradient(135deg, #1e5a4d 0%, #2d7a6b 100%);
+    color: white;
+    padding: 2.5rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px),
+        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);
+    opacity: 0.5;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Sticky button - always bottom right */
+.sticky-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: linear-gradient(135deg, #d4af37 0%, #c9a02f 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sticky-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(135deg, #e6c14a 0%, #d4af37 100%);
+}
+
+.sticky-button:active {
+    transform: translateY(-1px);
+}
+
+/* Main content */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem 2rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #1e5a4d;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #d4af37 0%, #2d7a6b 100%);
+    border-radius: 2px;
+}
+
+/* Items grid */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Item cards with Islamic arch-inspired design */
+.item-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-top: 4px solid #2d7a6b;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #e8f0f2;
+}
+
+.item-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f0f2 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d4e2e6;
+}
+
+.item-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e5a4d;
+}
+
+.item-status {
+    background: linear-gradient(135deg, #2d7a6b 0%, #1e5a4d 100%);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(30, 90, 77, 0.3);
+}
+
+.item-detail {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #f0f4f5;
+    font-size: 0.95rem;
+    color: #4a5568;
+}
+
+.item-detail strong {
+    color: #2d7a6b;
+    font-weight: 600;
+}
+
+.item-description {
+    padding: 1.25rem 1.5rem;
+    color: #5a6c7d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    background: #fafbfc;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .items-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .sticky-button {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    main {
+        padding: 2rem 1rem 5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sticky-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* Add Item Page Styles */
+.card {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #2d7a6b;
+}
+
+.card h1 {
+    color: #1e5a4d;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.card h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #d4af37 0%, #2d7a6b 100%);
+    border-radius: 2px;
+}
+
+.card h2 {
+    color: #2d7a6b;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.card input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: 2px dashed #2d7a6b;
+    border-radius: 8px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    color: #4a5568;
+}
+
+.card input[type="file"]:hover {
+    border-color: #1e5a4d;
+    background: #e8f0f2;
+}
+
+.card #preview {
+    display: none;
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e8f0f2;
+}
+
+.card textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e8f0f2;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: #2c3e50;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.card textarea:focus {
+    outline: none;
+    border-color: #2d7a6b;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(45, 122, 107, 0.1);
+}
+
+.card textarea::placeholder {
+    color: #a0aec0;
+}
+
+.card button {
+    width: 100%;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background: linear-gradient(135deg, #2d7a6b 0%, #1e5a4d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(30, 90, 77, 0.3);
+}
+
+.card button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 90, 77, 0.4);
+    background: linear-gradient(135deg, #38a389 0%, #2d7a6b 100%);
+}
+
+.card button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.card button:disabled {
+    background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin: 2rem 1rem;
+        padding: 2rem 1.5rem;
+    }
+    
+    .card h1 {
+        font-size: 1.75rem;
+    }
+}
