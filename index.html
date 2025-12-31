@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Student Projects - Nozolan</title>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-content">
+                <img src="../logo-white.png" alt="Nozolan Logo" class="header-logo" width="120" height="auto" />
+                <h1>💻 Student Projects</h1>
+                <p>Explore the innovative web applications built by our talented students at Nozolan</p>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="projects-grid" id="projects-grid">
+                <!-- Project cards will be dynamically loaded here -->
+                <div class="loading-message" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                    <div style="font-size: 2rem; margin-bottom: 16px">🔍</div>
+                    <p>Loading student projects...</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2024 Nozolan - Building Character & Coding Skills</p>
+        </footer>
+
+        <script>
+            // Dynamic project loading
+            document.addEventListener('DOMContentLoaded', async function () {
+                await loadProjects()
+                initializeAnimations()
+            })
+
+            async function loadProjects() {
+                const projectsGrid = document.getElementById('projects-grid')
+                const projectCountElement = document.getElementById('project-count')
+
+                try {
+                    // List of project folders - update this list when adding new projects
+                    const projectFolders = [
+                        'lost-found',
+                        // Add more project folders here as they are created
+                    ]
+
+                    // Remove loading message
+                    projectsGrid.innerHTML = ''
+
+                    if (projectFolders.length === 0) {
+                        projectsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <div style="font-size: 2rem; margin-bottom: 16px;">📁</div>
+                            <p>No projects found yet. Check back soon!</p>
+                        </div>
+                    `
+                        return
+                    }
+
+                    // Create cards for each project folder
+                    projectFolders.forEach((folderName, index) => {
+                        const card = createProjectCard(folderName, index)
+                        projectsGrid.appendChild(card)
+                    })
+
+                    // Update project count
+                    projectCountElement.textContent = projectFolders.length
+                } catch (error) {}
+            }
+
+            function createProjectCard(folderName, index) {
+                const projectInfo = getProjectInfo(folderName)
+
+                const card = document.createElement('div')
+                card.className = 'project-card'
+                card.onclick = () => window.open(`${folderName}/index.html`, '_blank')
+
+                const engineersHTML =
+                    projectInfo.engineers && projectInfo.engineers.length > 0
+                        ? `<div class="engineers-section">
+                        <div class="engineers-label">👨‍💻 Engineers:</div>
+                        <div class="engineers-list">
+                            ${projectInfo.engineers.map((engineer) => `<span class="engineer-tag">${engineer}</span>`).join('')}
+                        </div>
+                    </div>`
+                        : ''
+
+                const thumbnailHTML = projectInfo.thumbnail
+                    ? `<div class="project-thumbnail">
+                        <img src="${projectInfo.thumbnail}" alt="${projectInfo.displayName} preview" />
+                    </div>`
+                    : `<div class="project-thumbnail project-thumbnail-placeholder">
+                        <div class="thumbnail-icon">${projectInfo.icon}</div>
+                    </div>`
+
+                card.innerHTML = `
+                ${thumbnailHTML}
+                <div class="card-content">
+                    <div class="project-badge">${projectInfo.badge}</div>
+                    <h3 class="project-name">${projectInfo.displayName}</h3>
+                    <p class="project-type">${projectInfo.type}</p>
+                    <p class="project-description">${projectInfo.description}</p>
+                    ${engineersHTML}
+                    <button class="view-project-btn">
+                        <span>Open Project</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            `
+
+                return card
+            }
+
+            function getProjectInfo(folderName) {
+                const projectData = {
+                    'lost-found': {
+                        displayName: 'Lost & Found',
+                        type: 'Web Application',
+                        description:
+                            'A comprehensive web application to help track and manage lost items. Users can report lost items, search for found items, and connect with others to reunite with their belongings.',
+                        theme: 'lost-found',
+                        badge: 'In Progress',
+                        icon: '🔎',
+                        engineers: ['Safana', 'Mohamed Ghadialy', 'Omar'],
+                        thumbnail: 'images/lf.png', // Add image path here when available, e.g., 'lost-found/thumbnail.png'
+                    },
+                }
+
+                // Return existing project data or generate default data for new projects
+                if (projectData[folderName]) {
+                    return projectData[folderName]
+                } else {
+                    // Generate default data for unknown projects
+                    const displayName = folderName
+                        .split('-')
+                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ')
+
+                    const themes = ['default-1', 'default-2', 'default-3', 'default-4']
+                    const badges = ['🚀 New', '✨ Featured', '💡 Innovative', '🎯 Popular', '🌟 Trending']
+                    const icons = ['🎨', '🎮', '📱', '🌐', '⚡', '🔥', '💻', '🎯']
+                    const types = ['Web App', 'Interactive Tool', 'Student Project', 'Web Application', 'Digital Solution']
+
+                    return {
+                        displayName: displayName,
+                        type: types[index % types.length],
+                        description: `An innovative student project showcasing web development skills and creative problem-solving. Explore ${displayName} to see what our students have built!`,
+                        theme: themes[index % themes.length],
+                        badge: badges[index % badges.length],
+                        icon: icons[index % icons.length],
+                    }
+                }
+            }
+
+            function initializeAnimations() {
+                const cards = document.querySelectorAll('.project-card')
+
+                // Intersection Observer for scroll animations
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.style.opacity = '1'
+                                entry.target.style.transform = 'translateY(0)'
+                            }
+                        })
+                    },
+                    {
+                        threshold: 0.1,
+                    }
+                )
+
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0'
+                    card.style.transform = 'translateY(30px)'
+                    card.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`
+                    observer.observe(card)
+                })
+
+                // Add click analytics (optional)
+                cards.forEach((card) => {
+                    card.addEventListener('click', function () {
+                        const projectName = this.querySelector('.project-name').textContent
+                        console.log('Project card clicked:', projectName)
+                    })
+                })
+            }
+        </script>
+    </body>
+</html>
