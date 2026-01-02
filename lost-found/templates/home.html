@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lost and Found</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" /> 
+    </head>
+    <body>
+        <header>
+            <div class="header-content">
+                <h1>Lost and Found</h1>
+            </div>
+        </header>
+
+        <a href="{{ url_for('add_item') }}" class="nav-button sticky-button">+ Report Found Item</a>
+
+        <main>
+            <h2 class="section-title">Recently Found Items</h2>
+
+            <div id="itemsGrid" class="items-grid"></div>
+        </main>
+
+        <script>
+            const ITEMS_KEY = 'itemsData'
+            const itemsGrid = document.getElementById('itemsGrid')
+
+            function renderItems(items) {
+                itemsGrid.innerHTML = ''
+                items.forEach((item) => {
+                    const card = document.createElement('div')
+                    card.className = 'item-card'
+                    card.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="item-image" />
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-description">${item.description}</div>
+                    `
+                    itemsGrid.appendChild(card)
+                })
+            }
+
+            async function loadItems() {
+                try {
+                    const resp = await fetch('/api/items')
+                    if (!resp.ok) throw new Error('Failed to load items')
+                    const data = await resp.json()
+                    renderItems(data)
+                } catch (e) {
+                    console.error('Could not load items', e)
+                    itemsGrid.innerHTML = '<p style="color:#e2e8f0">Could not load items.</p>'
+                }
+            }
+
+            loadItems()
+        </script>
+    </body>
+</html>

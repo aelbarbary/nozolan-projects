@@ -1,0 +1,32 @@
+[
+  {
+    "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=400&h=300&fit=crop",
+    "name": "Black Wallet",
+    "description": "Leather wallet found near the study area. Contains several cards and some cash. Contact to verify ownership."
+  },
+  {
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
+    "name": "Blue Backpack",
+    "description": "Navy blue backpack with laptop compartment. Found under a table. Contains textbooks and notebooks."
+  },
+  {
+    "image": "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=400&h=300&fit=crop",
+    "name": "Silver Keys",
+    "description": "Set of keys with car key and house keys on a blue keychain. Found near the entrance."
+  },
+  {
+    "image": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400&h=300&fit=crop",
+    "name": "iPhone 14",
+    "description": "Black iPhone with cracked screen protector. Found on the bench. Battery is low, currently being charged."
+  },
+  {
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop",
+    "name": "Red Jacket",
+    "description": "Winter jacket, red color with hood. Left behind after afternoon class. Size medium."
+  },
+  {
+    "image": "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=400&h=300&fit=crop",
+    "name": "Prescription Glasses",
+    "description": "Black frame glasses in a brown case. Found near the information desk this morning."
+  }
+]
