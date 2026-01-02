@@ -27,19 +27,15 @@
             const save = document.getElementById('save')
 
             function toggleSave() {
-                save.disabled = !(desc.value.trim() && nameInput.value.trim() && preview.src)
+                save.disabled = !(desc.value.trim() && nameInput.value.trim() && camera.files.length > 0)
             }
 
             camera.addEventListener('change', () => {
                 const f = camera.files[0]
-                if (f) {
-                    const r = new FileReader()
-                    r.onload = (e) => {
-                        preview.src = e.target.result
-                        preview.style.display = 'block'
-                        toggleSave()
-                    }
-                    r.readAsDataURL(f)
+                if (f) { 
+                    preview.src = URL.createObjectURL(f)
+                    preview.style.display = 'block'
+                    toggleSave()
                 }
             })
             desc.addEventListener('input', toggleSave)
@@ -56,19 +52,15 @@
 
             save.addEventListener('click', async () => {
                 save.disabled = true
-                const newItem = {
-                    image: preview.src,
-                    name: nameInput.value.trim(),
-                    description: desc.value.trim(),
-                }
-                
                 try {
+                    const formData = new FormData()
+                    formData.append('name', nameInput.value.trim())
+                    formData.append('description', desc.value.trim())
+                    formData.append('image', camera.files[0])
+
                     const resp = await fetch('/api/items', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(newItem),
+                        body: formData,
                     })
                     
                     if (!resp.ok) throw new Error('Failed to save item')

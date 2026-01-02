@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import json
 import os
+import time
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -46,24 +48,51 @@ def get_items():
 
 @app.route('/api/items', methods=['POST'])
 def create_item():
-    """API endpoint to add a new item"""
+    """API endpoint to add a new item.
+
+    Accepts multipart/form-data with:
+    - name (str)
+    - description (str)
+    - image (file upload)
+    """
     try:
-        data = request.get_json()
-        if not data or 'name' not in data or 'description' not in data or 'image' not in data:
+        if not request.content_type.startswith('multipart/form-data'):
+            return jsonify({'error': 'Use multipart/form-data with fields: name, description, image file'}), 400
+
+        name = request.form.get('name', '').strip()
+        description = request.form.get('description', '').strip()
+        image_file = request.files.get('image')
+
+        if not name or not description or image_file is None:
             return jsonify({'error': 'Missing required fields: name, description, image'}), 400
-        
+
+        filename = secure_filename(image_file.filename or 'upload')
+        if not filename:
+            return jsonify({'error': 'Invalid image filename'}), 400
+
+        uploads_dir = os.path.join(app.static_folder, 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+
+        # Ensure unique filename
+        timestamp = int(time.time() * 1000)
+        name_part, ext = os.path.splitext(filename)
+        stored_filename = f"{name_part}_{timestamp}{ext or '.jpg'}"
+        file_path = os.path.join(uploads_dir, stored_filename)
+        image_file.save(file_path)
+
+        image_url = url_for('static', filename=f'uploads/{stored_filename}')
+
         items = read_items()
         new_item = {
-            'image': data['image'],
-            'name': data['name'],
-            'description': data['description']
+            'image': image_url,
+            'name': name,
+            'description': description
         }
         items.insert(0, new_item)  # Add to beginning
-        
+
         if write_items(items):
             return jsonify({'success': True, 'item': new_item}), 201
-        else:
-            return jsonify({'error': 'Failed to save item'}), 500
+        return jsonify({'error': 'Failed to save item'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
