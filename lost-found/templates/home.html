@@ -30,11 +30,57 @@
                 items.forEach((item) => {
                     const card = document.createElement('div')
                     card.className = 'item-card'
+                    const alreadyClaimed = !!item.claim_code
                     card.innerHTML = `
                         <img src="${item.image}" alt="${item.name}" class="item-image" />
                         <div class="item-name">${item.name}</div>
                         <div class="item-description">${item.description}</div>
+                        ${alreadyClaimed ? `<div class="item-claimed">Claimed</div>` : `
+                            <div class="claim-box">
+                                <input type="email" class="claim-email" placeholder="Your email" autocomplete="email" />
+                                <button class="claim-button">Claim</button>
+                                <div class="claim-status" style="margin-top:8px;"></div>
+                            </div>
+                        `}
                     `
+
+                    if (!alreadyClaimed) {
+                        const btn = card.querySelector('.claim-button')
+                        const emailInput = card.querySelector('.claim-email')
+                        const statusEl = card.querySelector('.claim-status')
+
+                        btn.addEventListener('click', async () => {
+                            const email = (emailInput.value || '').trim()
+                            statusEl.textContent = ''
+
+                            if (!email || !email.includes('@')) {
+                                statusEl.textContent = 'Please enter a valid email.'
+                                return
+                            }
+
+                            btn.disabled = true
+                            btn.textContent = 'Sending...'
+                            try {
+                                const resp = await fetch(`/api/items/${item.id}/claim`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ email }),
+                                })
+                                const data = await resp.json().catch(() => ({}))
+                                if (!resp.ok) {
+                                    statusEl.textContent = data.error || 'Could not submit claim.'
+                                    return
+                                }
+                                statusEl.textContent = `Claim submitted! Your claim code is: ${data.claim_code}`
+                            } catch (e) {
+                                console.error('Claim failed', e)
+                                statusEl.textContent = 'Network error. Try again.'
+                            } finally {
+                                btn.disabled = false
+                                btn.textContent = 'Claim'
+                            }
+                        })
+                    }
                     itemsGrid.appendChild(card)
                 })
             }
